@@ -262,13 +262,17 @@ public class SpringApplication {
 		this.resourceLoader = resourceLoader;
 		Assert.notNull(primarySources, "PrimarySources must not be null");
 		this.primarySources = new LinkedHashSet<>(Arrays.asList(primarySources));
-		this.webApplicationType = deduceWebApplicationType();
+		this.webApplicationType = deduceWebApplicationType(); // 为成员变量webEnvironment赋值
 		setInitializers((Collection) getSpringFactoriesInstances(
 				ApplicationContextInitializer.class));
 		setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class));
 		this.mainApplicationClass = deduceMainApplicationClass();
 	}
 
+	/**
+	 * 判断当前应用程序是不是一个Web应用程序
+	 * @return
+	 */
 	private WebApplicationType deduceWebApplicationType() {
 		if (ClassUtils.isPresent(REACTIVE_WEB_ENVIRONMENT_CLASS, null)
 				&& !ClassUtils.isPresent(MVC_WEB_ENVIRONMENT_CLASS, null)) {
